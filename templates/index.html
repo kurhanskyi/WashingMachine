@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Симуляція пральної машини</title>
+    <meta http-equiv="refresh" content="1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body data-phase="{{ phase if phase else 'none' }}">
+    <div class="washing-machine">
+        <div class="door">
+            <div class="drum">
+                <div class="water"></div>
+            </div>
+        </div>
+        <div class="display">
+            {% if phase %}
+                {{ '%02d:%02d'|format(remaining_time // 60, remaining_time % 60) }}
+            {% else %}
+                00:00
+            {% endif %}
+        </div>
+        <div class="controls">
+            <a href="{{ url_for('start_phase', phase='fill') }}" class="btn {% if phase == 'fill' %}active{% endif %}">Заповнення</a>
+            <a href="{{ url_for('start_phase', phase='wash') }}" class="btn {% if phase == 'wash' %}active{% endif %}">Прання</a>
+            <a href="{{ url_for('start_phase', phase='rinse') }}" class="btn {% if phase == 'rinse' %}active{% endif %}">Полоскання</a>
+            <a href="{{ url_for('start_phase', phase='spin') }}" class="btn {% if phase == 'spin' %}active{% endif %}">Віджим</a>
+        </div>
+    </div>
+</body>
+</html>
